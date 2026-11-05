@@ -1,0 +1,34 @@
+application:
+  subdomain: faved
+  multi_instance: false
+  # Faved ships its own account system: when the user table is empty the app
+  # shows a "create account" form (username + credential, no mail round-trip),
+  # so it can be exposed directly and authenticate itself.
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://faved:80/
+services:
+  faved:
+    # upstream: docker.io/denho/faved:2.10.1
+    image: docker.1ms.run/denho/faved:2.10.1
+    environment:
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/storage:/var/www/html/storage
+usage: |-
+  Faved 是一个自托管书签管理器：多级收藏夹、标签、全文搜索、缩略图，
+  还可以用收藏小书签一键存当前页面。数据存在本地 SQLite，不需要外部数据库。
+
+  首次使用：
+    - 第一次打开会自动跳到「创建账号」，填用户名 + 密码即可（不会发邮件）。
+    - 系统没有内置账号，也没有默认口令；建好账号后登录进去用。
+
+  说明：
+    - 应用自带登录页，直接对外开放由 Faved 自己的账号体系鉴权，所以使用 public_path。
+    - 数据（SQLite 数据库与图标/缩略图）都在 /lzcapp/var/storage，随应用持久化，
+      卸载前请先备份。
+    - 上游的 docker-compose 会挂 apache-conf / certbot-conf 做 HTTPS，
+      这里没有挂载（会覆盖镜像内的站点配置），HTTPS 由平台入口负责。
+    - 未做实机验证。

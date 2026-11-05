@@ -1,0 +1,17 @@
+package: community.lazycat.app.faved
+name: Faved
+description: "Self-hosted bookmark manager with nested collections, full-text search and one-click bookmarklet capture."
+version: 2.10.1
+min_os_version: "1.5.0"
+homepage: https://github.com/denho/faved
+author: denho
+license: MIT
+permissions:
+  required: []
+locales:
+  zh:
+    name: Faved
+    description: "自托管书签管理器：嵌套收藏夹、全文搜索、一键收藏小书签，数据存本地 SQLite。"
+  en:
+    name: Faved
+    description: "Self-hosted bookmark manager with nested collections, full-text search and one-click bookmarklet capture."
